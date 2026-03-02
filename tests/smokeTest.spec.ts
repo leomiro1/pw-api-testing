@@ -10,10 +10,15 @@ test('Get Articles', async ({ api }) => {
         .path("/articles")
         .params({limit:10, offset:0})
         .getRequest(200)
-        console.log(response)
     await expect(response).shouldMatchSchema('articles','GET_articles')
     expect(response.articles.length).shouldBeLessThanOrEqual(10)
     expect(response.articlesCount).shouldEqual(30)
+    
+    // Slug Format: title with spaces as hyphens + appended number
+    response.articles.forEach((article) => {
+        const expectedSlug = article.title.replace(/ /g, '-') + article.slug.match(/-\d+$/)[0]
+        expect(article.slug).shouldEqual(expectedSlug)
+    })
 })
 
 test('Get Test tags', async ({ api }) => {
