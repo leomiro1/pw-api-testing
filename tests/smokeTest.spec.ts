@@ -10,6 +10,7 @@ test('Get Articles', async ({ api }) => {
         .path("/articles")
         .params({limit:10, offset:0})
         .getRequest(200)
+        console.log(response)
     await expect(response).shouldMatchSchema('articles','GET_articles')
     expect(response.articles.length).shouldBeLessThanOrEqual(10)
     expect(response.articlesCount).shouldEqual(30)
