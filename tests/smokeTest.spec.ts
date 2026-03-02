@@ -37,6 +37,7 @@ test('Create & Delete Article', async ({ api }) => {
         .path("/articles")
         .body(articleRequest)
         .postRequest(201)
+    await expect(createArticleResponse).shouldMatchSchema('articles','POST_articles')
     expect(createArticleResponse.article.title).shouldEqual(articleRequest.article.title)
     const slugId = createArticleResponse.article.slug
 
@@ -44,7 +45,7 @@ test('Create & Delete Article', async ({ api }) => {
         .path("/articles")
         .params({limit:10, offset:0})
         .getRequest(200)
-    
+    await expect(articlesResponse).shouldMatchSchema('articles','GET_articles')
     expect(articlesResponse.articles[0].title).shouldEqual(articleRequest.article.title)
 
     await api
@@ -55,7 +56,7 @@ test('Create & Delete Article', async ({ api }) => {
         .path("/articles")
         .params({limit:10, offset:0})
         .getRequest(200)
-    
+    await expect(articlesResponseTwo).shouldMatchSchema('articles','GET_articles')
     expect(articlesResponseTwo.articles[0].title).not.shouldEqual(articleRequest.article.title)    
 
 })
@@ -68,7 +69,7 @@ test('Create, Update & Delete Article', async ({ api }) => {
         .path("/articles")
         .body(articleRequest)
         .postRequest(201)
-
+    await expect(createArticleResponse).shouldMatchSchema('articles','POST_articles')
     expect(createArticleResponse.article.title).shouldEqual(articleTile)
     const slugId2 = createArticleResponse.article.slug
 
@@ -78,7 +79,7 @@ test('Create, Update & Delete Article', async ({ api }) => {
         .path(`/articles/${slugId2}`)
         .body(articleRequest)
         .putRequest(200)
-    
+    await expect(updateArticleResponse).shouldMatchSchema('articles','PUT_articles')
     expect(updateArticleResponse.article.title).shouldEqual(articleTileTwo)
     const newslugId = updateArticleResponse.article.slug
 
@@ -86,7 +87,7 @@ test('Create, Update & Delete Article', async ({ api }) => {
         .path("/articles")
         .params({limit:10, offset:0})
         .getRequest(200)
-    
+    await expect(articlesResponse).shouldMatchSchema('articles','GET_articles')
     expect(articlesResponse.articles[0].title).shouldEqual(articleTileTwo)
 
     await api
@@ -97,7 +98,7 @@ test('Create, Update & Delete Article', async ({ api }) => {
         .path("/articles")
         .params({limit:10, offset:0})
         .getRequest(200)
-    
+    await expect(articlesResponseTwo).shouldMatchSchema('articles','GET_articles')
     expect(articlesResponseTwo.articles[0].title).not.shouldEqual(articleTileTwo)    
 
 })
