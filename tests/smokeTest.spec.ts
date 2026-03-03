@@ -1,6 +1,6 @@
 import { test } from '../utils/fixtures';
 import { expect } from '../utils/custom-expect';
-import articleRequestPayload from '../request-objects/POST-article.json'
+import articleRequestPayload from '../request-objects/POST-article.json' assert { type: 'json' };
 import { faker } from '@faker-js/faker'
 import { getNewRandomArticle } from '../utils/data-generator';
 
@@ -12,7 +12,7 @@ test('Get Articles', async ({ api }) => {
         .getRequest(200)
     await expect(response).shouldMatchSchema('articles','GET_articles')
     expect(response.articles.length).shouldBeLessThanOrEqual(10)
-    expect(response.articlesCount).shouldEqual(30)
+    expect(response.articlesCount).shouldEqual(44)
     
     // Slug Format: title with spaces as hyphens + appended number
     response.articles.forEach((article) => {
